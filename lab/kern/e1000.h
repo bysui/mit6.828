@@ -40,6 +40,10 @@
 #define RDH      0x02810  /* RX Descriptor Head - RW */
 #define RDT      0x02818  /* RX Descriptor Tail - RW */
 #define RCTL     0x00100  /* RX Control - RW */
+#define ICR      0x000C0  /* Interrupt Cause Read - R/clr */
+#define ICS      0x000C8  /* Interrupt Cause Set - WO */
+#define IMS      0x000D0  /* Interrupt Mask Set - RW */
+#define IMC      0x000D8  /* Interrupt Mask Clear - WO */
 #define RAS_DEST       0x00000000
 #define RAV	       0x80000000
 
@@ -104,10 +108,13 @@
 #define RCTL_RST            0x00000001    /* Software reset */
 #define RCTL_EN             0x00000002    /* enable */
 #define RCTL_SBP            0x00000004    /* store bad packet */
+#define RCTL_UPE            0x00000008    /* unicast promiscuous enable */
+#define RCTL_MPE            0x00000010    /* multicast promiscuous enab */
 #define RCTL_LPE            0x00000020    /* long packet enable */
 #define RCTL_LBM_NO         0x00000000    /* no loopback mode */
 #define RCTL_BAM            0x00008000    /* broadcast enable */
 #define RCTL_SECRC          0x04000000    /* Strip Ethernet CRC */
+#define RCTL_DTYP_MASK      0x00000C00    /* Descriptor type mask */
 #define RCTL_BSIZE_2048     0x00000000
 #define RCTL_BSIZE	    RCTL_BSIZE_2048
 
