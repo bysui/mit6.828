@@ -15,6 +15,9 @@ enum {
 	E_FAULT		= 6,	// Memory fault
 	E_NO_SYS	= 7,	// Unimplemented system call
 
+	E_IPC_NOT_RECV	= 8,	// Attempt to send to env that is not recving
+	E_EOF		= 9,	// Unexpected end of file
+
 	MAXERROR
 };
 
