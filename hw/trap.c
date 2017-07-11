@@ -13,6 +13,7 @@ struct gatedesc idt[256];
 extern uint vectors[];  // in vectors.S: array of 256 entry pointers
 struct spinlock tickslock;
 uint ticks;
+extern int mappages(pde_t *pgdir, void *va, uint size, uint pa, int perm);
 
 void
 tvinit(void)
@@ -87,6 +88,22 @@ trap(struct trapframe *tf)
       panic("trap");
     }
     // In user space, assume process misbehaved.
+    if (tf->trapno == T_PGFLT) {
+      char *mem;
+      uint a;
+      
+      a = PGROUNDDOWN(rcr2());
+      mem = kalloc();
+      if (mem == 0) {
+	  cprintf("kalloc out of memory!\n");
+	  proc->killed = 1;
+	  break;
+      }
+      memset(mem, 0, PGSIZE);
+      mappages(proc->pgdir, (char*)a, PGSIZE, v2p(mem), PTE_W|PTE_U);
+      break;
+    }
+
     cprintf("pid %d %s: trap %d err %d on cpu %d "
             "eip 0x%x addr 0x%x--kill proc\n",
             proc->pid, proc->name, tf->trapno, tf->err, cpu->id, tf->eip, 
