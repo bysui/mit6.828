@@ -29,6 +29,12 @@ typedef int32_t envid_t;
 #define NENV			(1 << LOG2NENV)
 #define ENVX(envid)		((envid) & (NENV - 1))
 
+#define ENV_PRIOR_SUPPER 0
+#define ENV_PRIOR_HIGH 10
+#define ENV_PRIOR_NORMAL 100
+#define ENV_PRIOR_LOW 1000
+
+
 // Values of env_status in struct Env
 enum {
 	ENV_FREE = 0,
@@ -65,6 +71,9 @@ struct Env {
 	uint32_t env_ipc_value;		// Data value sent to us
 	envid_t env_ipc_from;		// envid of the sender
 	int env_ipc_perm;		// Perm of page mapping received
+
+	// challenge fixed-priority schedule
+	int env_priority;
 };
 
 #endif // !JOS_INC_ENV_H
