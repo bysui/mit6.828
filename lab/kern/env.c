@@ -502,6 +502,8 @@ env_pop_tf(struct Trapframe *tf)
 	curenv->env_cpunum = cpunum();
 
 	__asm __volatile("movl %0,%%esp\n"
+		//"\tfxrstor (%%esp)\n"
+		//"\taddl $524,%%esp\n"
 		"\tpopal\n"
 		"\tpopl %%es\n"
 		"\tpopl %%ds\n"
