@@ -72,6 +72,22 @@ TRAPHANDLER(fperr_entry, T_FPERR, 0, 0);
 TRAPHANDLER(align_entry, T_ALIGN, 1, 0);
 TRAPHANDLER(mchk_entry, T_MCHK, 0, 0);
 TRAPHANDLER(simderr_entry, T_SIMDERR, 0, 0);
+TRAPHANDLER(irq0_entry, IRQ_OFFSET + 0, 0, 0);
+TRAPHANDLER(irq1_entry, 33, 0, 0);
+TRAPHANDLER(irq2_entry, 34, 0, 0);
+TRAPHANDLER(irq3_entry, 35, 0, 0);
+TRAPHANDLER(irq4_entry, 36, 0, 0);
+TRAPHANDLER(irq5_entry, 37, 0, 0);
+TRAPHANDLER(irq6_entry, 38, 0, 0);
+TRAPHANDLER(irq7_entry, 39, 0, 0);
+TRAPHANDLER(irq8_entry, 40, 0, 0);
+TRAPHANDLER(irq9_entry, 41, 0, 0);
+TRAPHANDLER(irq10_entry, 42, 0, 0);
+TRAPHANDLER(irq11_entry, 43, 0, 0);
+TRAPHANDLER(irq12_entry, 44, 0, 0);
+TRAPHANDLER(irq13_entry, 45, 0, 0);
+TRAPHANDLER(irq14_entry, 46, 0, 0);
+TRAPHANDLER(irq15_entry, 47, 0, 0);
 TRAPHANDLER(syscall_entry, T_SYSCALL, 0, 1);
 .data
 	.long 0, 0, 0   // interupt end identify

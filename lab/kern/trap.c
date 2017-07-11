@@ -48,6 +48,22 @@ void fperr_entry();
 void align_entry();
 void mchk_entry();
 void simderr_entry();
+void irq0_entry();
+void irq1_entry();
+void irq2_entry();
+void irq3_entry();
+void irq4_entry();
+void irq5_entry();
+void irq6_entry();
+void irq7_entry();
+void irq8_entry();
+void irq9_entry();
+void irq10_entry();
+void irq11_entry();
+void irq12_entry();
+void irq13_entry();
+void irq14_entry();
+void irq15_entry();
 void syscall_entry();
 
 static const char *trapname(int trapno)
@@ -93,7 +109,7 @@ trap_init(void)
 	int i;
 
 	for (i = 0; entry_data[i][0] != 0; i++ )
-		SETGATE(idt[entry_data[i][1]], entry_data[i][2], GD_KT, entry_data[i][0], entry_data[i][2]*3);
+		SETGATE(idt[entry_data[i][1]], 0, GD_KT, entry_data[i][0], entry_data[i][2]*3);
 
 	trap_init_percpu();
 }
@@ -226,9 +242,12 @@ trap_dispatch(struct Trapframe *tf)
 	// Handle clock interrupts. Don't forget to acknowledge the
 	// interrupt using lapic_eoi() before calling the scheduler!
 	// LAB 4: Your code here.
-
+	if (tf->tf_trapno == IRQ_OFFSET + IRQ_TIMER) {
+		lapic_eoi();
+		sched_yield();
+		return;
+	}
 	// Unexpected trap: The user process or the kernel has a bug.
-	print_trapframe(tf);
 	if (tf->tf_cs == GD_KT)
 		panic("unhandled trap in kernel %d", tf->tf_trapno);
 	else {
@@ -243,7 +262,7 @@ trap(struct Trapframe *tf)
 	// The environment may have set DF and some versions
 	// of GCC rely on DF being clear
 	asm volatile("cld" ::: "cc");
-
+	
 	// Halt the CPU if some other CPU has called panic()
 	extern char *panicstr;
 	if (panicstr)
