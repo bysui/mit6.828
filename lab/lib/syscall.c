@@ -117,8 +117,24 @@ sys_ipc_recv(void *dstva)
 	return syscall(SYS_ipc_recv, 1, (uint32_t)dstva, 0, 0, 0, 0);
 }
 
+unsigned int
+sys_time_msec(void)
+{
+	return (unsigned int) syscall(SYS_time_msec, 0, 0, 0, 0, 0, 0);
+}
+
 int
 sys_env_set_priority(envid_t envid, int priority)
 {
 	return syscall(SYS_env_set_priority, 1, envid, priority, 0, 0, 0);
+}
+
+int sys_netpacket_try_send(void *addr, size_t len)
+{
+	return syscall(SYS_netpacket_try_send, 1, (uint32_t)addr, len, 0, 0, 0);
+}
+
+int sys_netpacket_recv(void *addr, size_t buflen)
+{
+	return syscall(SYS_netpacket_recv, 0, (uint32_t)addr, buflen, 0, 0, 0);
 }
